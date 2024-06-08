@@ -11,9 +11,6 @@ import org.mapstruct.factory.Mappers;
 public interface ParticipantMapper {
     ParticipantMapper INSTANCE = Mappers.getMapper(ParticipantMapper.class);
 
-    @Mapping(target="participantId", source = "id")
-     ParticipantEntity idAndParticipantBodytoParticipantEntity(Integer id, ParticipantBody participantBody);
-
-
+    ParticipantEntity idAndParticipantBodytoParticipantEntity(Integer id, ParticipantBody participantBody);
     ParticipantDTO participantEntityToParticipantDTO(ParticipantEntity participantEntity);
 }

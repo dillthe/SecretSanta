@@ -1,5 +1,6 @@
 package com.github.secretsanta.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,11 +19,13 @@ public class CoupleEntity {
     @Column(name = "couple_id")
     private Integer coupleId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "participant1_id", nullable = false)
+    @JsonManagedReference
     private ParticipantEntity participant1;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "participant2_id", nullable = false)
+    @JsonManagedReference
     private ParticipantEntity participant2;
 }

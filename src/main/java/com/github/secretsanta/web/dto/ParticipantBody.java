@@ -11,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ParticipantBody {
     @Schema(description = "Participant Name", example = "John Chris, 박나래 : 영문 및 한글 이름 입력 가능")
