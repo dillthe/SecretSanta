@@ -44,16 +44,16 @@ public class ParticipantEntity {
     @JsonBackReference
     private CoupleEntity coupleEntity;
 
-//    @OneToMany(mappedBy = "participant1")
-//    @JsonBackReference
-//    private List<CoupleEntity> couplesAsFirstParticipant;
-//
-//    @OneToMany(mappedBy = "participant2")
-//    @JsonBackReference
-//    private List<CoupleEntity> couplesAsSecondParticipant;
+    @OneToMany(mappedBy = "participant1")
+    @JsonBackReference
+    private List<CoupleEntity> couplesAsFirstParticipant;
 
-    @OneToMany(mappedBy = "receiver")
-    private List<SecretSantaEntity> givenSecrets;
-    @OneToMany(mappedBy = "giver")
-    private List<SecretSantaEntity> receivedSecrets;
+    @OneToMany(mappedBy = "participant2")
+    @JsonBackReference
+    private List<CoupleEntity> couplesAsSecondParticipant;
+//
+//    @OneToMany(mappedBy = "receiver")
+//    private List<SecretSantaEntity> giverSecrets;
+//    @OneToMany(mappedBy = "giver")
+//    private List<SecretSantaEntity> receiverSecrets;
 }

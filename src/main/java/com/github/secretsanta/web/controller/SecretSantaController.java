@@ -1,7 +1,10 @@
 package com.github.secretsanta.web.controller;
 
+import com.github.secretsanta.repository.entity.CoupleEntity;
 import com.github.secretsanta.repository.entity.ParticipantEntity;
+import com.github.secretsanta.repository.entity.SecretSantaEntity;
 import com.github.secretsanta.service.SecretSantaService;
+import com.github.secretsanta.web.dto.SecretSantaDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +21,7 @@ public class SecretSantaController {
     private final SecretSantaService secretSantaService;
 
     @PostMapping("/draw")
-    public List<SecretSantaService.SecretSantaPair> drawNames(@RequestBody List<ParticipantEntity> participants) {
-                return secretSantaService.drawNames(participants);
+    public List<SecretSantaDTO> drawNames() {
+        return secretSantaService.drawNames();
     }
 }

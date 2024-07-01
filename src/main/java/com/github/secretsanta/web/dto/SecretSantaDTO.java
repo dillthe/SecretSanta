@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 @Getter
-@Setter
+//@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -14,4 +14,5 @@ public class SecretSantaDTO {
     private Integer santaId;
     private Integer giverId;
     private Integer receiverId;
+
 }
