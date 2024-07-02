@@ -55,9 +55,4 @@ public class ParticipantEntity {
     public void setParticipantId(Integer participantId) {
         this.participantId = participantId;
     }
-//
-//    @OneToMany(mappedBy = "receiver")
-//    private List<SecretSantaEntity> giverSecrets;
-//    @OneToMany(mappedBy = "giver")
-//    private List<SecretSantaEntity> receiverSecrets;
 }

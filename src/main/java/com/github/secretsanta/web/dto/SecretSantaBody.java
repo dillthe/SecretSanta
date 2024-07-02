@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 @Getter
-@Setter
+//@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -14,10 +14,11 @@ public class SecretSantaBody {
     private Integer giverId;
     private Integer receiverId;
 
-//    public void setGiverId(Integer participantId) {
-//        this.giverId=participantId;
-//    }
-//    public void setReceiverId(Integer participantId) {
-//        this.receiverId=participantId;
-//    }
+    public void setGiverId(Integer giverId) {
+        this.giverId = giverId;
+    }
+
+    public void setReceiverId(Integer receiverId) {
+        this.receiverId = receiverId;
+    }
 }

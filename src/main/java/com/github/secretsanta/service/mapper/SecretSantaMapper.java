@@ -22,9 +22,4 @@ public interface SecretSantaMapper {
     @Mapping(target = "receiverId", source = "receiver.participantId")
     SecretSantaDTO secretSantaEntityToSecretSantaDTO(SecretSantaEntity secretSantaEntity);
 
-
-//    @Mapping(source = "participantId", target = "participantId")
-//    @Mapping(source = "participantName", target = "participantName")
-//    ParticipantDTO participantEntityToParticipantDTO(ParticipantEntity participantEntity);
-
 }

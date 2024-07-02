@@ -26,4 +26,9 @@ public class SecretSantaController {
     public List<SecretSantaEntity> gedAllSecretSantas() {
         return secretSantaService.getAllSecretSantas();
     }
+
+    @DeleteMapping("/delete")
+    public SecretSantaEntity deleteAllSecretSantas(){
+        return secretSantaService.deleteAllSecretSantas();
+    }
 }

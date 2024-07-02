@@ -32,11 +32,17 @@ public class SecretSantaService {
             throw new NotAcceptException("At least two participants are required");
         }
 
+        if (secretSantaRepository.count() > 0) {
+            throw new NotAcceptException("Secret Santa list already exists.");
+//            return new ArrayList<>();  // 이미 매칭된 경우 빈 리스트 반환
+        }
+
         List<ParticipantEntity> givers = new ArrayList<>(participants);
         List<ParticipantEntity> receivers = new ArrayList<>(participants);
         Collections.shuffle(receivers);
 
 
+        //while문이 true이면(즉 커플이든, 시크릿산타든 중복이 있으면) receiver shuffle을 계속 한다.
         while (hasAnyDuplicates(givers, receivers) || hasCoupleDuplicates(givers, receivers, couples)) {
             Collections.shuffle(receivers);
         }
@@ -52,16 +58,14 @@ public class SecretSantaService {
             SecretSantaEntity secretSantaCreated = secretSantaRepository.save(secretSantaEntity);
 
             SecretSantaDTO secretSantaDTO = SecretSantaMapper.INSTANCE.secretSantaEntityToSecretSantaDTO(secretSantaCreated);
-            secretSantaDTO.setGiverId(secretSantaDTO.getGiverId());
-            secretSantaDTO.setReceiverId(secretSantaDTO.getReceiverId());
             secretSantaDTOs.add(secretSantaDTO);
 
         }  return secretSantaDTOs;
     }
 
-    private boolean hasAnyDuplicates(List<ParticipantEntity> list1, List<ParticipantEntity> list2) {
-        for (int i = 0; i < list1.size(); i++) {
-            if (list1.get(i).getParticipantName().equals(list2.get(i).getParticipantName())) {
+    private boolean hasAnyDuplicates(List<ParticipantEntity> givers, List<ParticipantEntity> receivers) {
+        for (int i = 0; i < givers.size(); i++) {
+            if (givers.get(i).getParticipantName().equals(receivers.get(i).getParticipantName())) {
                 return true;
             }
         }
@@ -84,4 +88,12 @@ public class SecretSantaService {
     public List<SecretSantaEntity> getAllSecretSantas() {
         return secretSantaRepository.findAll();
     }
+
+//    public SecretSantaEntity deleteAllSecretSantas() {
+//        return secretSantaRepository.deleteAll();
+//    }
+    //시크릿산타 목록들을 이벤트로 묶어서 코드 다시 짜기!
+    //재밌다!!!!!
+    //그리고 이벤트가 실행되면(시크릿산타가 정해지면) giver들에게 알림 이메일이 가도록 하기!
+
 }
