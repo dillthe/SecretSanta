@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -20,9 +21,9 @@ public class CoupleService {
     private final CoupleRepository coupleRepository;
     private final ParticipantRepository participantRepository;
     public Integer addCouple(CoupleBody coupleBody) {
-        Optional<CoupleEntity> existingCouple = coupleRepository.findByParticipant1IdAndParticipant2Id(coupleBody.getParticipant1Id(), coupleBody.getParticipant2Id());
+        Optional<CoupleEntity> existingCouple = coupleRepository.findByParticipant1_ParticipantIdAndParticipant2_ParticipantId(coupleBody.getParticipant1Id(), coupleBody.getParticipant2Id());
         if(!existingCouple.isPresent()){
-            existingCouple = coupleRepository.findByParticipant2IdAndParticipant1Id(coupleBody.getParticipant2Id(),coupleBody.getParticipant1Id());
+            existingCouple = coupleRepository.findByParticipant2_ParticipantIdAndParticipant1_ParticipantId(coupleBody.getParticipant2Id(),coupleBody.getParticipant1Id());
         }
         if(existingCouple.isPresent()){
             throw new NotAcceptException("Couple already exists");
@@ -32,5 +33,9 @@ public class CoupleService {
         CoupleEntity coupleCreated = coupleRepository.save(coupleEntity);
 
         return coupleCreated.getCoupleId();
+    }
+
+    public List<CoupleEntity> getAllCouples() {
+       return coupleRepository.findAll();
     }
 }

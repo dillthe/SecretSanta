@@ -52,6 +52,8 @@ public class SecretSantaService {
             SecretSantaEntity secretSantaCreated = secretSantaRepository.save(secretSantaEntity);
 
             SecretSantaDTO secretSantaDTO = SecretSantaMapper.INSTANCE.secretSantaEntityToSecretSantaDTO(secretSantaCreated);
+            secretSantaDTO.setGiverId(secretSantaDTO.getGiverId());
+            secretSantaDTO.setReceiverId(secretSantaDTO.getReceiverId());
             secretSantaDTOs.add(secretSantaDTO);
 
         }  return secretSantaDTOs;
@@ -77,5 +79,9 @@ public class SecretSantaService {
                 }
             }
         } return false;
+    }
+
+    public List<SecretSantaEntity> getAllSecretSantas() {
+        return secretSantaRepository.findAll();
     }
 }

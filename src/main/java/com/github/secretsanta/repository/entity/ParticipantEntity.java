@@ -10,7 +10,7 @@ import lombok.*;
 import java.util.List;
 
 @Getter
-@Setter
+//@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -51,6 +51,10 @@ public class ParticipantEntity {
     @OneToMany(mappedBy = "participant2")
     @JsonBackReference
     private List<CoupleEntity> couplesAsSecondParticipant;
+
+    public void setParticipantId(Integer participantId) {
+        this.participantId = participantId;
+    }
 //
 //    @OneToMany(mappedBy = "receiver")
 //    private List<SecretSantaEntity> giverSecrets;

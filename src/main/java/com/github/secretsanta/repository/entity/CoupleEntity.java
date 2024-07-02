@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+//@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -19,13 +19,21 @@ public class CoupleEntity {
     @Column(name = "couple_id")
     private Integer coupleId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "participant1_id", nullable = false)
     @JsonManagedReference
     private ParticipantEntity participant1;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "participant2_id", nullable = false)
     @JsonManagedReference
     private ParticipantEntity participant2;
+
+    public void setParticipant1(ParticipantEntity participant1) {
+        this.participant1 = participant1;
+    }
+
+    public void setParticipant2(ParticipantEntity participant2) {
+        this.participant2 = participant2;
+    }
 }
