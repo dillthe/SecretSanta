@@ -12,23 +12,23 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/secret-santa")
+@RequestMapping("/api/event/{eventId}")
 public class SecretSantaController {
 
     private final SecretSantaService secretSantaService;
 
-    @PostMapping("/draw")
-    public List<SecretSantaDTO> drawNames() {
-        return secretSantaService.drawNames();
+    @PostMapping("/secret-santa/assign")
+    public List<SecretSantaDTO> assignSecretSanta(@PathVariable int eventId) {
+        return secretSantaService.assignSecretSanta(eventId);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/secret-santas")
     public List<SecretSantaEntity> gedAllSecretSantas() {
         return secretSantaService.getAllSecretSantas();
     }
 
-    @DeleteMapping("/delete")
-    public SecretSantaEntity deleteAllSecretSantas(){
-        return secretSantaService.deleteAllSecretSantas();
-    }
+//    @DeleteMapping("/delete")
+//    public SecretSantaEntity deleteAllSecretSantas(){
+//        return secretSantaService.deleteAllSecretSantas();
+//    }
 }

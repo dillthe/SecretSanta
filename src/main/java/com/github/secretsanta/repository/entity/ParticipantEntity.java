@@ -2,6 +2,7 @@ package com.github.secretsanta.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.secretsanta.web.dto.ParticipantBody;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -22,7 +23,7 @@ public class ParticipantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "participant_id")
-    private Integer participantId;
+    private int participantId;
 
     @NotBlank(message = "Participant name cannot be blank")
     @Pattern(regexp = "^[가-힣a-zA-Z\\s'-]+$", message = "Participant name should be valid")
@@ -33,6 +34,11 @@ public class ParticipantEntity {
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "Email should be valid")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    @JsonBackReference
+    private EventEntity event;
 
     public void setParticipantBody(ParticipantBody participantBody) {
         this.participantName = participantBody.getParticipantName();
@@ -54,5 +60,9 @@ public class ParticipantEntity {
 
     public void setParticipantId(Integer participantId) {
         this.participantId = participantId;
+    }
+
+    public void setParticipantName(String participantName) {
+        this.participantName = participantName;
     }
 }

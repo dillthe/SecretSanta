@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 @Getter
-//@Setter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -12,4 +12,5 @@ import lombok.*;
 public class CoupleBody {
     private Integer participant1Id;
     private Integer participant2Id;
+    private int eventId;
 }

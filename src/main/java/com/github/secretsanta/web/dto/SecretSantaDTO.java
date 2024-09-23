@@ -5,14 +5,22 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SecretSantaDTO {
     private Integer santaId;
     private Integer giverId;
     private Integer receiverId;
+    private int eventId;
 
+//    public void setGiverId(Integer giverId) {
+//        this.giverId = giverId;
+//    }
+//
+//    public void setReceiverId(Integer receiverId) {
+//        this.receiverId = receiverId;
+//    }
 }

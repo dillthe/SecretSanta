@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
-//@Setter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -24,4 +24,7 @@ public class ParticipantBody {
 //    @Email(message = "Email should be valid")
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "Email should be valid")
     private String email;
+
+    @NotNull
+    private int eventId;
 }

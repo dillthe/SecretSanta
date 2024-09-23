@@ -2,11 +2,14 @@ package com.github.secretsanta.service;
 
 import com.github.secretsanta.repository.couple.CoupleRepository;
 import com.github.secretsanta.repository.entity.CoupleEntity;
+import com.github.secretsanta.repository.entity.EventEntity;
 import com.github.secretsanta.repository.entity.ParticipantEntity;
 import com.github.secretsanta.repository.entity.SecretSantaEntity;
+import com.github.secretsanta.repository.event.EventRepository;
 import com.github.secretsanta.repository.participant.ParticipantRepository;
 import com.github.secretsanta.repository.secretSanta.SecretSantaRepository;
 import com.github.secretsanta.service.exceptions.NotAcceptException;
+import com.github.secretsanta.service.exceptions.NotFoundException;
 import com.github.secretsanta.service.mapper.SecretSantaMapper;
 import com.github.secretsanta.web.dto.SecretSantaBody;
 import com.github.secretsanta.web.dto.SecretSantaDTO;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,18 +27,32 @@ public class SecretSantaService {
     private final SecretSantaRepository secretSantaRepository;
     private final CoupleRepository coupleRepository;
     private final ParticipantRepository participantRepository;
+    private final EventRepository eventRepository;
 
-    public List<SecretSantaDTO> drawNames() {
 
-        List<ParticipantEntity> participants = participantRepository.findAll();
-        List<CoupleEntity> couples = coupleRepository.findAll();
-        if (participants.size() < 2) {
-            throw new NotAcceptException("At least two participants are required");
+    public List<SecretSantaDTO> assignSecretSanta(int eventId) {
+//        List<ParticipantEntity> participants = participantRepository.findAll();
+//        List<CoupleEntity> couples = coupleRepository.findAll();
+        //이벤트 번호로 drawName가능하게 만들기
+
+        Optional<EventEntity> optionalEvent = eventRepository.findById(eventId);
+        if (!optionalEvent.isPresent()) {
+            throw new NotFoundException("Event not found");
         }
 
-        if (secretSantaRepository.count() > 0) {
+
+        if (secretSantaRepository.findByEvent_EventId(eventId)) {
             throw new NotAcceptException("Secret Santa list already exists.");
 //            return new ArrayList<>();  // 이미 매칭된 경우 빈 리스트 반환
+        }
+
+        EventEntity event = eventRepository.findById(eventId)
+                .orElseThrow(()->new NotFoundException("Event Not Found"));
+
+        List<ParticipantEntity> participants = event.getParticipants();
+        List<CoupleEntity> couples = event.getCouples();
+        if (participants.size() < 2) {
+            throw new NotAcceptException("At least two participants are required");
         }
 
         List<ParticipantEntity> givers = new ArrayList<>(participants);
@@ -88,6 +106,8 @@ public class SecretSantaService {
     public List<SecretSantaEntity> getAllSecretSantas() {
         return secretSantaRepository.findAll();
     }
+
+
 
 //    public SecretSantaEntity deleteAllSecretSantas() {
 //        return secretSantaRepository.deleteAll();

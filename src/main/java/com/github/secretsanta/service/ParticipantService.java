@@ -1,6 +1,8 @@
 package com.github.secretsanta.service;
 
+import com.github.secretsanta.repository.entity.EventEntity;
 import com.github.secretsanta.repository.entity.ParticipantEntity;
+import com.github.secretsanta.repository.event.EventRepository;
 import com.github.secretsanta.repository.participant.ParticipantRepository;
 import com.github.secretsanta.service.exceptions.NotAcceptException;
 import com.github.secretsanta.service.exceptions.NotFoundException;
@@ -22,6 +24,7 @@ import java.util.List;
 @Slf4j
 public class ParticipantService {
     private final ParticipantRepository participantRepository;
+    private final EventRepository eventRepository;
     private static final Logger logger = LoggerFactory.getLogger(ParticipantController.class);
 
     public Integer createParticipant(ParticipantBody participantBody) {
@@ -48,16 +51,24 @@ public class ParticipantService {
 
         ParticipantEntity participantEntityUpdated = participantRepository.findById(participantId)
                  .orElseThrow(()->new NotFoundException("해당 Id:"+participantId+"를 찾을 수 없습니다."));
-        participantEntityUpdated.setParticipantId(participantId);
+//        participantEntityUpdated.setParticipantId(participantId);
         participantEntityUpdated.setParticipantBody(participantBody);
         participantRepository.save(participantEntityUpdated);
          return participantEntityUpdated.getParticipantId();
     }
 
 
-    public List<ParticipantEntity> getAllParticipants() {
-        return participantRepository.findAll();
+//    public List<ParticipantEntity> getAllParticipants() {
+//        return participantRepository.findAll();
+//    }
+
+
+
+    public List<ParticipantDTO> getAllParticipantsByEventId(int eventId) {
+        EventEntity eventEntity = eventRepository.findById(eventId)
+                .orElseThrow(()->new NotFoundException("해당 Id:"+eventId+"를 찾을 수 없습니다."));
+        List<ParticipantEntity> participantEntities = participantRepository.findAllByEvent(eventEntity);
+        List<ParticipantDTO> participantDTOs = ParticipantMapper.INSTANCE.participantEntitiesToParticipantDTOs(participantEntities);
+        return  participantDTOs;
     }
-
-
 }

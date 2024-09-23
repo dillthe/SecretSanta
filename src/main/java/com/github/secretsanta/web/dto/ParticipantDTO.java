@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 @Getter
@@ -11,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ParticipantDTO {
         @Schema(description = "Participant Id", example = "1")
@@ -26,4 +28,17 @@ public class ParticipantDTO {
 //    @Email(message = "Email should be valid")
         @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "Email should be valid")
         private String email;
+
+        private int eventId;
+        public void setEventId(int eventId) {
+                this.eventId = eventId;
+        }
+//
+//        public void setParticipantName(String participantName) {
+//                this.participantName = participantName;
+//        }
+//
+//        public void setEmail(String email) {
+//                this.email = email;
+//        }
 }
