@@ -25,8 +25,8 @@ public class ParticipantController {
     @Operation(summary="참가자 정보 입력")
     @PostMapping("/participants")
     public String createParticipant(@Valid @PathVariable int eventId, @Valid @RequestBody ParticipantBody participantBody){
+        participantBody.setEventId(eventId);
             int participantId = participantService.createParticipant(participantBody);
-            participantBody.setEventId(eventId);
 //        ParticipantEntity createdParticipant= participantService.createParticipant(participantBody);
             return "참가자 번호: "+ participantId +", 이름: "+participantBody.getParticipantName()+"님이 이벤트번호: " + eventId  +"에 저장되었습니다.";
     }

@@ -23,7 +23,7 @@ public class ParticipantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "participant_id")
-    private int participantId;
+    private Integer participantId;
 
     @NotBlank(message = "Participant name cannot be blank")
     @Pattern(regexp = "^[가-힣a-zA-Z\\s'-]+$", message = "Participant name should be valid")

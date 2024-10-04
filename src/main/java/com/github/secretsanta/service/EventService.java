@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class EventService {
 
     private final EventRepository eventRepository;
-
 
     public Integer createEvent(EventBody eventBody) {
         boolean eventExists = eventRepository.findByEventName(eventBody.getEventName()).isPresent();
@@ -34,9 +34,22 @@ public class EventService {
         return eventCreated.getEventId();
     }
 
+    public void deleteEvent(Integer eventId) {
+        EventEntity eventEntity = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException("Event not found with id " + eventId));
+        eventRepository.deleteById(eventId); // 이벤트가 존재하는 경우 삭제
+    }
+
     public EventDTO getEventById(int eventId) {
         EventEntity eventEntity = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException("Event not found with id " + eventId));
         EventDTO eventDTO = EventMapper.INSTANCE.eventEntityToEventDTO(eventEntity);
         return eventDTO;
     }
+
+    public List<EventDTO> getAllEvents(){
+        List<EventEntity> eventEntities = eventRepository.findAll();
+        List<EventDTO> eventDTOs = EventMapper.INSTANCE.eventEntitiesToEventDTOs(eventEntities);
+        return eventDTOs;
+    }
+
+
 }

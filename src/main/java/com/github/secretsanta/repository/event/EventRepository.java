@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Repository
     public interface EventRepository extends JpaRepository<EventEntity, Integer> {
-//    boolean findByEventName(String name);
     Optional<EventEntity> findByEventName(String name);
 }
 

@@ -13,7 +13,9 @@ import lombok.*;
 public class SecretSantaDTO {
     private Integer santaId;
     private Integer giverId;
+    private String giverName;
     private Integer receiverId;
+    private String receiverName;
     private int eventId;
 
 //    public void setGiverId(Integer giverId) {

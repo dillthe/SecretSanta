@@ -31,12 +31,4 @@ public class CoupleDTO {
     }
 
 
-
-//    public void setParticipant1Id(Integer participant1Id) {
-//        this.participant1Id = participant1Id;
-//    }
-//
-//    public void setParticipant2Id(Integer participant2Id) {
-//        this.participant2Id = participant2Id;
-//    }
 }

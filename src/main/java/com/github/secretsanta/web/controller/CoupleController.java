@@ -29,9 +29,22 @@ public class CoupleController {
         return "커플Id:"+coupleId +":"+ coupleBody.getParticipant1Id()+"님과 "+coupleBody.getParticipant2Id()+"님의 커플 정보 입력이 완료되었습니다.";
     }
 
+    @Operation(summary="커플 정보 삭제")
+    @DeleteMapping("/couple/{coupleId}")
+    public String deleteCouple(@Valid @PathVariable int eventId, @Valid @PathVariable int coupleId){
+        String deletion = coupleService.deleteCouple(coupleId);
+        return deletion;
+    }
+
     @Operation(summary="커플 정보 확인")
     @GetMapping("/couples")
     public List<CoupleDTO> getAllCouples(@Valid @PathVariable int eventId){
         return coupleService.getAllCouplesByEvent(eventId);
+    }
+
+    @Operation(summary="전 이벤트 커플 정보")
+    @GetMapping("/allcouples")
+    public List<CoupleDTO> getAllCouples(){
+        return coupleService.getAllCouples();
     }
 }

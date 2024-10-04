@@ -31,21 +31,10 @@ public class SecretSantaService {
 
 
     public List<SecretSantaDTO> assignSecretSanta(int eventId) {
-//        List<ParticipantEntity> participants = participantRepository.findAll();
-//        List<CoupleEntity> couples = coupleRepository.findAll();
-        //이벤트 번호로 drawName가능하게 만들기
 
-        Optional<EventEntity> optionalEvent = eventRepository.findById(eventId);
-        if (!optionalEvent.isPresent()) {
-            throw new NotFoundException("Event not found");
-        }
-
-
-        if (secretSantaRepository.findByEvent_EventId(eventId)) {
+        if (secretSantaRepository.existsByEvent_EventId(eventId)) {
             throw new NotAcceptException("Secret Santa list already exists.");
-//            return new ArrayList<>();  // 이미 매칭된 경우 빈 리스트 반환
         }
-
         EventEntity event = eventRepository.findById(eventId)
                 .orElseThrow(()->new NotFoundException("Event Not Found"));
 
@@ -70,6 +59,7 @@ public class SecretSantaService {
             SecretSantaBody secretSantaBody = new SecretSantaBody();
             secretSantaBody.setGiverId(givers.get(i).getParticipantId());
             secretSantaBody.setReceiverId(receivers.get(i).getParticipantId());
+            secretSantaBody.setEventId(eventId);
             //get(i) 부분은 List 인터페이스에서 제공하는 메서드로, 리스트의 i번째 요소를 가져오는 메서드.
 
             SecretSantaEntity secretSantaEntity = SecretSantaMapper.INSTANCE.idAndSecretSantaBodytoSecretSantaEntity(null, secretSantaBody);
@@ -103,10 +93,18 @@ public class SecretSantaService {
         } return false;
     }
 
-    public List<SecretSantaEntity> getAllSecretSantas() {
-        return secretSantaRepository.findAll();
-    }
+//    public List<SecretSantaEntity> getAllSecretSantas() {
+//        return secretSantaRepository.findAll();
+//    }
 
+    public List<SecretSantaDTO> getSecretSantasByEvent(int eventId) {
+        EventEntity eventEntity = eventRepository.findById(eventId)
+                .orElseThrow(()-> new NotFoundException("Event's not found with id"));
+        List<SecretSantaEntity> secretSantaEntities = secretSantaRepository.findAllByEvent(eventEntity);
+        List<SecretSantaDTO> secretSantaDTOs = SecretSantaMapper.INSTANCE.secretSantaEntitiesToSecretSantaDTOs(secretSantaEntities);
+        return secretSantaDTOs;
+
+    }
 
 
 //    public SecretSantaEntity deleteAllSecretSantas() {

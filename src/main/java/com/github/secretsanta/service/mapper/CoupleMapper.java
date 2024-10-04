@@ -1,14 +1,15 @@
 package com.github.secretsanta.service.mapper;
 
 import com.github.secretsanta.repository.entity.CoupleEntity;
+import com.github.secretsanta.repository.entity.ParticipantEntity;
 import com.github.secretsanta.web.dto.CoupleBody;
 import com.github.secretsanta.web.dto.CoupleDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
+//@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_DEFAULT)
 @Mapper
 public interface CoupleMapper {
     CoupleMapper INSTANCE = Mappers.getMapper(CoupleMapper.class);
@@ -24,6 +25,5 @@ public interface CoupleMapper {
     @Mapping(target = "participant2Name", source = "participant2.participantName")
     CoupleDTO coupleEntityToCoupleDTO(CoupleEntity coupleEntity);
      List<CoupleDTO> coupleEntitiesToCoupleDTOs(List<CoupleEntity> coupleEntities);
-
 
 }

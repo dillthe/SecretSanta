@@ -47,4 +47,5 @@ public interface EventMapper {
 
     List<SecretSantaDTO> secretSantaEntitiesToSecretSantaDTOs(List<SecretSantaEntity> secretSantaEntities);
 
+    List<EventDTO> eventEntitiesToEventDTOs(List<EventEntity> eventEntities);
 }

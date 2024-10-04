@@ -20,14 +20,14 @@ import java.util.List;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "couple_id")
-        private int coupleId;
+        private Integer coupleId;
 
-        @ManyToOne(fetch = FetchType.EAGER, optional = false)
+        @ManyToOne(fetch = FetchType.EAGER/*, optional = false*/)
         @JoinColumn(name = "participant1_id", nullable = false)
         @JsonManagedReference
         private ParticipantEntity participant1;
 
-        @ManyToOne(fetch = FetchType.EAGER, optional = false)
+        @ManyToOne(fetch = FetchType.EAGER/*, optional = false*/)
         @JoinColumn(name = "participant2_id", nullable = false)
         @JsonManagedReference
         private ParticipantEntity participant2;
