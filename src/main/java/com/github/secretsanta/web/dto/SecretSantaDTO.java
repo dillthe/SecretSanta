@@ -16,13 +16,17 @@ public class SecretSantaDTO {
     private String giverName;
     private Integer receiverId;
     private String receiverName;
-    private int eventId;
+    private Integer eventId;
 
-//    public void setGiverId(Integer giverId) {
-//        this.giverId = giverId;
-//    }
-//
-//    public void setReceiverId(Integer receiverId) {
-//        this.receiverId = receiverId;
-//    }
+    public void setGiverId(Integer giverId) {
+        this.giverId = giverId;
+    }
+
+    public void setReceiverId(Integer receiverId) {
+        this.receiverId = receiverId;
+    }
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
+    }
+
 }

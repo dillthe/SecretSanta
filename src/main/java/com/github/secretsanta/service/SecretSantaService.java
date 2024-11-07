@@ -14,11 +14,14 @@ import com.github.secretsanta.service.mapper.SecretSantaMapper;
 import com.github.secretsanta.web.dto.SecretSantaBody;
 import com.github.secretsanta.web.dto.SecretSantaDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.mail.javamail.JavaMailSender;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -28,8 +31,10 @@ public class SecretSantaService {
     private final CoupleRepository coupleRepository;
     private final ParticipantRepository participantRepository;
     private final EventRepository eventRepository;
+    private final JavaMailSender mailSender;
 
 
+    @Transactional
     public List<SecretSantaDTO> assignSecretSanta(int eventId) {
 
         if (secretSantaRepository.existsByEvent_EventId(eventId)) {
@@ -99,11 +104,49 @@ public class SecretSantaService {
 
     public List<SecretSantaDTO> getSecretSantasByEvent(int eventId) {
         EventEntity eventEntity = eventRepository.findById(eventId)
-                .orElseThrow(()-> new NotFoundException("Event's not found with id"));
+                .orElseThrow(()-> new NotFoundException("Event not found with EventId: " + eventId));
         List<SecretSantaEntity> secretSantaEntities = secretSantaRepository.findAllByEvent(eventEntity);
         List<SecretSantaDTO> secretSantaDTOs = SecretSantaMapper.INSTANCE.secretSantaEntitiesToSecretSantaDTOs(secretSantaEntities);
         return secretSantaDTOs;
 
+    }
+
+    @Transactional
+    public void deleteSecretSantasByEvent(int eventId) {
+        EventEntity eventEntity = eventRepository.findById(eventId)
+                .orElseThrow(()-> new NotFoundException("Event not found with EventId: " + eventId));
+        List<SecretSantaEntity> secretSantaList = secretSantaRepository.findAllByEvent(eventEntity);
+        if (secretSantaList.isEmpty()) {
+            // Secret Santa 리스트가 비어있으면 예외를 던지거나 메시지 반환
+            throw new NotFoundException("No Secret Santa list found for eventId: " + eventId);
+        }
+        secretSantaRepository.deleteAllByEvent(eventEntity);
+    }
+
+    public void sendEmail(int eventId) {
+        EventEntity eventEntity = eventRepository.findById(eventId)
+                .orElseThrow(() -> new NotFoundException("Event not found with EventId: " + eventId));
+        List<SecretSantaEntity> secretSantaList = secretSantaRepository.findAllByEvent(eventEntity);
+
+        for (SecretSantaEntity secretSanta : secretSantaList) {
+            String giver = secretSanta.getGiver().getParticipantName();
+            String receiver = secretSanta.getReceiver().getParticipantName();
+            String toEmail = secretSanta.getGiver().getEmail();
+            String eventName = secretSanta.getEvent().getEventName();
+
+            sendEmailToParticipant(giver, toEmail, receiver, eventName);
+
+        }
+    }
+        private void sendEmailToParticipant(String giver, String toEmail, String receiver, String eventName){
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject( eventName + " Assignment");
+        message.setText("Hello " + giver + ",\n\nYou have been assigned to give a gift to " + receiver +
+                "!\n\n Happy Holidays!");
+
+        mailSender.send(message);
     }
 
 

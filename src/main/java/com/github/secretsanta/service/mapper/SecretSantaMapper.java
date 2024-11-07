@@ -24,6 +24,5 @@ public interface SecretSantaMapper {
     @Mapping(target = "receiverName", source = "receiver.participantName")
     @Mapping(target="eventId",source="event.eventId")
     SecretSantaDTO secretSantaEntityToSecretSantaDTO(SecretSantaEntity secretSantaEntity);
-
     List<SecretSantaDTO> secretSantaEntitiesToSecretSantaDTOs(List<SecretSantaEntity> secretSantaEntities);
 }

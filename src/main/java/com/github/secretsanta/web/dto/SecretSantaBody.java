@@ -9,17 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SecretSantaBody {
     private Integer giverId;
     private Integer receiverId;
     private int eventId;
 
-//    public void setGiverId(Integer giverId) {
-//        this.giverId = giverId;
-//    }
-//
-//    public void setReceiverId(Integer receiverId) {
-//        this.receiverId = receiverId;
-//    }
 }

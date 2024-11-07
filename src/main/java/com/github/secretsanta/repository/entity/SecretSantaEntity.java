@@ -1,6 +1,7 @@
 package com.github.secretsanta.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,17 +18,19 @@ public class SecretSantaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "santa_id")
-    private int santaId;
+    private Integer santaId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "giver_id", nullable = false)
+    @JsonManagedReference
     private ParticipantEntity giver;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "receiver_id", nullable = false)
+    @JsonManagedReference
     private ParticipantEntity receiver;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", nullable = false)
     @JsonBackReference
     private EventEntity event;
@@ -36,11 +39,9 @@ public class SecretSantaEntity {
         this.event = event;
     }
 
-    public void setGiver(ParticipantEntity giverId) {
-        this.giver = giverId;
-    }
+    public void setGiver(ParticipantEntity giver) {this.giver = giver;    }
 
-    public void setReceiver(ParticipantEntity receiverId) {
-        this.receiver = receiverId;
+    public void setReceiver(ParticipantEntity receiver) {
+        this.receiver = receiver;
     }
 }

@@ -17,4 +17,6 @@ public interface SecretSantaRepository extends JpaRepository<SecretSantaEntity, 
     boolean existsByEvent_EventId(int eventId);
 
     List<SecretSantaEntity> findAllByEvent(EventEntity eventEntity);
+
+    List<SecretSantaEntity> deleteAllByEvent(EventEntity eventEntity);
 }

@@ -8,8 +8,6 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-
-//@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_DEFAULT)
 @Mapper
 public interface CoupleMapper {
     CoupleMapper INSTANCE = Mappers.getMapper(CoupleMapper.class);
