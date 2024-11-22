@@ -11,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ParticipantBody {
     @Schema(description = "Participant Name", example = "John Chris, 박나래 : 영문 및 한글 이름 입력 가능")
@@ -23,4 +24,7 @@ public class ParticipantBody {
 //    @Email(message = "Email should be valid")
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "Email should be valid")
     private String email;
+
+    @NotNull
+    private int eventId;
 }
